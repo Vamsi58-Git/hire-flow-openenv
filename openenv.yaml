@@ -1,0 +1,33 @@
+name: hireflow-resume-screening
+version: "1.0"
+spec_version: "1.0"
+
+environment:
+  observation:
+    properties:
+      resume_text: {type: "string"}
+      job_description: {type: "string"}
+  action:
+    properties:
+      decision: {enum: ["shortlist", "reject"]}
+      score: {type: "number", minimum: 0.0, maximum: 1.0}
+      reasoning: {type: "string"}
+
+tasks:
+  - id: easy_keyword_match
+    difficulty: easy
+  - id: medium_transferable_skills
+    difficulty: medium
+  - id: hard_growth_pattern
+    difficulty: hard
+
+episode:
+  max_steps: 5
+
+grading:
+  decision_correctness: 0.4
+  score_accuracy: 0.3
+  reasoning_quality: 0.2
+  penalties:
+    bias_detection: -0.3
+    step_overflow: -0.5
