@@ -1,0 +1,11 @@
+{
+  "learning_rate": 0.01,
+  "epsilon": 0.3,
+  "q_values": {},
+  "episode_rewards": [],
+  "task_performance": {
+    "easy": [],
+    "medium": [],
+    "hard": []
+  }
+}
