@@ -1,63 +1,12 @@
 name: hireflow-resume-screening
-version: "1.0"
-spec_version: "1.0"
-entrypoint: inference.py
+version: "1.0.0"
+description: "Resume screening environment where an agent learns to evaluate candidates against job descriptions"
+spec_version: 1
 
-environment:
-  observation:
-    type: object
-    properties:
-      resume_text:
-        type: string
-        description: "Full text of the candidate's resume"
-      job_description:
-        type: string
-        description: "Full text of the job description to match against"
-    required:
-      - resume_text
-      - job_description
+type: environment
 
-  action:
-    type: object
-    properties:
-      decision:
-        type: string
-        enum:
-          - shortlist
-          - reject
-        description: "Binary hiring decision for the candidate"
-      score:
-        type: number
-        minimum: 0.0
-        maximum: 1.0
-        description: "Fit score between 0.0 (no fit) and 1.0 (perfect fit)"
-      reasoning:
-        type: string
-        description: "Explanation justifying the decision and score"
-    required:
-      - decision
-      - score
-      - reasoning
+runtime:
+  type: docker
 
-tasks:
-  - id: easy_keyword_match
-    difficulty: easy
-    description: "Candidate qualifications closely match explicit job requirements"
-  - id: medium_transferable_skills
-    difficulty: medium
-    description: "Candidate has relevant transferable skills from adjacent domains"
-  - id: hard_growth_pattern
-    difficulty: hard
-    description: "Evaluate candidate based on trajectory and growth potential"
-
-episode:
-  max_steps: 5
-
-grading:
-  decision_correctness: 0.4
-  score_accuracy: 0.3
-  reasoning_quality: 0.3
-
-penalties:
-  bias_detection: -0.3
-  step_overflow: -0.5
+app: server.app:app
+port: 7860
