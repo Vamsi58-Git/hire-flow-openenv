@@ -5,31 +5,50 @@ entrypoint: inference.py
 
 environment:
   observation:
+    type: object
     properties:
       resume_text:
         type: string
+        description: "Full text of the candidate's resume"
       job_description:
         type: string
+        description: "Full text of the job description to match against"
+    required:
+      - resume_text
+      - job_description
+
   action:
+    type: object
     properties:
       decision:
+        type: string
         enum:
           - shortlist
           - reject
+        description: "Binary hiring decision for the candidate"
       score:
         type: number
         minimum: 0.0
         maximum: 1.0
+        description: "Fit score between 0.0 (no fit) and 1.0 (perfect fit)"
       reasoning:
         type: string
+        description: "Explanation justifying the decision and score"
+    required:
+      - decision
+      - score
+      - reasoning
 
 tasks:
   - id: easy_keyword_match
     difficulty: easy
+    description: "Candidate qualifications closely match explicit job requirements"
   - id: medium_transferable_skills
     difficulty: medium
+    description: "Candidate has relevant transferable skills from adjacent domains"
   - id: hard_growth_pattern
     difficulty: hard
+    description: "Evaluate candidate based on trajectory and growth potential"
 
 episode:
   max_steps: 5
